@@ -62,7 +62,9 @@ type Temp struct {
 func (t *TCPTransport) handleConn(conn net.Conn) {
 	peer := NewTCPPeer(conn, true)
 	if err := t.shakeHands(peer); err != nil {
-
+		conn.Close()
+		fmt.Println("There was a handshake error:", err)
+		return
 	}
 	msg := &Temp{}
 	for {
